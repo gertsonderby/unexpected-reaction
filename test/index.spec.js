@@ -203,6 +203,31 @@ describe("unexpected-reaction", () => {
         );
       });
 
+      describe.only("Ignore-based issues", () => {
+        const Ignore = global.unexpectedReact.Ignore;
+
+        it("doesn't hang when satisfying Ignore with Ignore", () => {
+          return expect(
+            <div>
+              <Ignore />
+            </div>,
+            "to satisfy",
+            <div>
+              <Ignore />
+            </div>
+          );
+        });
+
+        it("hangs if trying to satisfy element with Ignore", () =>
+          expect(
+            <div>
+              <Ignore />
+            </div>,
+            "to satisfy",
+            <div>Text</div>
+          ));
+      });
+
       describe("on conditional tree", () => {
         it("mounts the given ReactElement and satisfies the subject against it", () => {
           const mounted = mount(<Toggle />);
